@@ -185,6 +185,10 @@ class report_graphic extends Gcharts {
             $montharr[$monthabbrev][0] = $monthabbrev;
         }
         $sql .= "FROM {user} u
+                WHERE u.id IN (SELECT ra.userid  
+                                FROM mdl_role_assignments AS ra
+			                    JOIN mdl_context AS context ON ra.contextid = context.id AND context.contextlevel = 50
+			                    WHERE ra.roleid = 5 AND context.instanceid = $courseid)
                 ORDER BY u.id";
         $result = $DB->get_records_sql($sql);
 
